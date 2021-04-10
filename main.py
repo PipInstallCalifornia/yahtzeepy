@@ -116,16 +116,16 @@ def straight_power(occurences_list):
 # to suffix value as a float to help
 # compare dealer hand to players
 # 
-# refactor for legibility 
+# refactor for legibility
+# fix run on float error
 
 def create_float(whole_number_value, suffix_list):
-    stringed_value = "."
-    if whole_number_value != 6: # don't sort value if full house
-        suffix_list.sort(reverse=True)
-    for suffix in suffix_list:
-        stringed_value += str(suffix)
-    unstringed_value = float(stringed_value[0:3])
-    float_value = whole_number_value+unstringed_value
+    try:
+        suffix = (suffix_list[0]*0.1)+(suffix_list[1]*0.01)
+    except:
+        suffix = suffix_list[0]*0.1
+    float_value = round(whole_number_value + suffix,2) # round to remove trailing 0s, refactor needed
+     
     return float_value
 
 '''
@@ -140,7 +140,6 @@ def evaluation(occurences_list):
         index_value(occurences_list, [5]))
 
     elif evaluate_full_house(occurences_list):
-        # create argument to put 3 of a kind value first
         return create_float(6, 
         index_value(occurences_list, [3,2]))
 
@@ -197,17 +196,32 @@ def score_as_text(float):
     string = str(float)
     string = string.split(".")
     whole_number = int(string[0])
-    payload = hands[whole_number] + " of " + string[1] + "s"
+    if whole_number == 0:
+        payload = "No Hand"
+    elif whole_number == 2:
+        payload = "Pair of " + string[1][0] + "s and " + string[1][1] + "s"
+    elif whole_number == 4:
+        if string[1] == 1:
+            prefix = "Low"
+        else:
+            prefix = "High"
+        payload = prefix + " Straight"
+    else:
+        payload = hands[whole_number] + " of " + string[1] + "s"
     return payload
 '''
 Game
 '''
 
-hands = hands()
-counted = count_hands(hands)
-score = score_hands(counted)
+def Hand(hands,counted,score):
+    # consider single schema population
+    # to allow for objects variable
+    # player and dealer
+    # rather than slicing
 
-def hand(hands,counted,score):
+    # consider getting counted and score values
+    # from object, rather than 
+    # inserting as attr
     both_hands = {
     "player":
         {
@@ -232,6 +246,8 @@ def hand(hands,counted,score):
         both_hands[user]['text'] = score_as_text(score[user])
     return both_hands
 
-state = hand(hands, counted, score)
-
-print(state['player'])
+def dealer_wins(hand):
+    if hand['dealer']['score'] >= hand['player']['score']:
+        return True
+    else: 
+        return False
