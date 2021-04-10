@@ -46,7 +46,7 @@ Once count_hands() object is returned, it will be scored. The scoring is as foll
 * Example: hand: [1,4,3,5,1] occurences: [2,0,1,1,1,0]
 
 
-=== Todo ===
+### Todo
 
 * Seperate game logic class, and gameloop files
 * Seperate file into classes, rather than divided functions
