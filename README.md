@@ -1,5 +1,5 @@
 # Rolladice.py -- Work in Progress
-[img]https://i.imgur.com/nVRFf83.png[/img]
+![rolladice_Logo.png](https://i.imgur.com/nVRFf83.png)
 No more updates will be comitted until final Alpha version is released.
 A wrapper to simulate a dice rolling game similar to the rules of Yahtzee.
 
