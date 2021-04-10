@@ -12,6 +12,15 @@ So far the project only uses Python's built in random library for use of randint
 
 The end project will include a sample Tkinker client. Networking may be implemented, depending on developer's interest in expanding the project.
 
+Installation:
+1. Create directory
+2. git clone https://github.com/PipInstallCalifornia/Rolladice.git
+3. cd into directory
+4. py example.py
+
+
+
+
 So far 'hands()' produces a dictionary following this schema:
 { "player": [1,2,3,4,5],
 "dealer: [1,2,3,4,5] }
