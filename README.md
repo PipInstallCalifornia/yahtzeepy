@@ -1,4 +1,4 @@
-# Rolladice.py -- Work in Progress
+# Rolladice.py -- Unstable
 ![rolladice_Logo.png](https://i.imgur.com/nVRFf83.png)
 
 >Dice Logo design by Starline / Freepik
