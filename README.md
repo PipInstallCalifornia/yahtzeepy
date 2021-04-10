@@ -3,7 +3,7 @@ A wrapper to simulate a dice rolling game similar to the rules of Yahtzee.
 
 5 Dice will be rolled, the client will be playing against the house. 
 
-Free to use, with no attribution under the Apache 2.0 license.
+Free to use, with no attribution under the MIT no attribution license.
 
 The goal for this project is to use only built in libraries, and use best coding practices,
 maintainability is key.
