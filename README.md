@@ -17,7 +17,7 @@ So far the project only uses Python's built in random library for use of randint
 
 The end project will include a sample Tkinker client. Networking may be implemented, depending on developer's interest in expanding the project.
 
-Installation:
+### Installation
 1. Create directory
 2. git clone https://github.com/PipInstallCalifornia/Rolladice.git
 3. cd into directory
@@ -37,6 +37,7 @@ count_hands() requires the hands() dictionary object. It will return both the pl
 
 Once count_hands() object is returned, it will be scored. The scoring is as follows:
 
+### Hand Ordering 
 * No Hand (no matching numbers in the hand of 5) -- Base Score 0
 * Example: hand: [1,2,3,4,6] occurences: [1,1,1,1,0,1]
 
