@@ -1,4 +1,5 @@
 # Rolladice.py -- Work in Progress
+No more updates will be comitted until final Alpha version is released.
 A wrapper to simulate a dice rolling game similar to the rules of Yahtzee.
 
 5 Dice will be rolled, the client will be playing against the house. 
