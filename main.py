@@ -1,130 +1,108 @@
 import random
-import time
 
 '''
-Global Variables Decloration
-
---- change to non global var, return at function 
---- explore new options for hoisting data
+Random Generation
+-- More details here
 '''
-global player_hand # list
-global player_hand_counted # list
-global dealer_hand # list
-global dealer_hand_counted # list
+def random_int():
+    random_number = random.randint(1,6)
+    return random_number
 
-# Declare variables to empty list
-player_hand = []
-player_hand_counted = []
-dealer_hand = []
-dealer_hand_counted = []
-
-'''
-End Global Variable Decloration
-'''
-
-'''
-Start Generate Hand Logic
-'''
-# Move to pi randomization
-# append all permutations to 
-# list, select random 4 digits
-# from pi less than than 6^5 + 1
-# use index to select
-# hand value
-def generate_random_int():
-    return random.randint(1,6) # int
-
-def generate_random_hand():
-    hand_list = []
+def random_hand():
+    deck = []
     for x in range(5):
-        x # do nothing excuse lint error
-        hand_list.append(generate_random_int())
-    return hand_list # list
+        deck.append(random_int())
+    return deck
+
+def hands():
+    hand = {'player':[],'dealer':[]}
+    for user in hand:
+        hand[user] = random_hand()
+    return hand
 
 '''
-End Generate Hand Logic
+Occurences Count
+-- More details here
 '''
-
-
-'''
-Call to generated_random_hand() 
-Generate Both Hands
-'''
-def get_player_hand():
-    global player_hand
-    player_hand = generate_random_hand() # list
-
-def get_dealer_hand():
-    global dealer_hand
-    dealer_hand = generate_random_hand() # list
-
-def get_both_hands():
-    get_player_hand()
-    get_dealer_hand()
-
-'''
-End Generate Both Hands
-'''
-
-'''
-Start Occurence Counting Logic
-'''
-# Example: [1,3,4,2,2] returns
-# [1,2,1,1,0] for list order
-# [1,2,3,4,5] 
-def count_number_occurences(hand):
+def occurences(hand):
     occurences_list = []
     for x in range(1,7):
-        occurences = hand.count(x)
-        occurences_list.append(occurences)
+        count = hand.count(x)
+        occurences_list.append(count)
     return occurences_list
 
-# Count occurences in both 
-# player_hand, and dealer_hand
-def count_player_hand(hand):
-    global player_hand_counted
-    occurences = count_number_occurences(hand) # yeilds list
-    player_hand_counted = occurences
-
-def count_dealer_hand(hand):
-    global dealer_hand_counted
-    occurences = count_number_occurences(hand) # yeilds list
-    dealer_hand_counted = occurences
-
-def count_both_hands():
-    global player_hand
-    global dealer_hand
-    count_player_hand(player_hand)
-    count_dealer_hand(dealer_hand)
+def count_hands(hand):
+    counted = {'player':[], 'dealer':[]}
+    for user in hand:
+        print # solely to elimate pylint warning
+        counted[user] = occurences(hand[user])
+    return counted
 
 '''
-End Occurence Counting Logic
+Possible Hands
 '''
-
-'''
-Start Hand Strength Evaluation Logic
-'''
-# Takes in [0,0,2,0,0], 2 returns int 3
-# Can take in multiple occurence values 
-# Usage: index_value(occurences_list, [3,2])
-# Returns list, ex: [2], [2,5]
-def index_value(occurences_list, occurences):
-    index_list = []
-    for occurence in occurences:
-        try:
-            if len(index_list) == 2:
-                break
-            index = occurences_list.index(occurence)
-            occurences_list[index] = 0
-            occurence_number = index + 1
-            index_list.append(occurence_number)
-        except:
-            break
-    print(index_list)
-    if index_list:
-        return index_list
+def evaluate_5_of_a_kind(occurences_list):
+    if 5 in occurences_list:
+        return True
     else:
         return False
+
+def evaluate_full_house(occurences_list):
+    if 3 in occurences_list and 2 in occurences_list:
+        return True
+    else:
+        return False
+
+def evaluate_4_of_a_kind(occurences_list):
+    if 4 in occurences_list:
+        return True
+    else:
+        return False
+
+def evaluate_straight(occurences_list):
+    is_a_straight = False 
+    if occurences_list == [1,1,1,1,1,0]:
+        is_a_straight = True
+    if occurences_list == [0,1,1,1,1,1]:
+        is_a_straight = True
+    if is_a_straight:
+        return True
+    else:
+        return False
+
+def evaluate_3_of_a_kind(occurences_list):
+    if 3 in occurences_list:
+        return True
+    else:
+        return False
+
+def evaluate_2_pair(occurences_list):
+    pair_count = 0
+    for occurence in occurences_list:
+        if occurence == 2:
+            pair_count += 1
+    if pair_count == 2:
+        return True
+    else:
+        return False
+
+def evaluate_pair(occurences_list):
+    if 2 in occurences_list:
+        return True
+    else:
+        return False
+
+'''
+Number Indexing
+'''
+def index_value(occurences_list, numbers):
+    indexes = []
+    x = 1
+    for occurence in occurences_list:
+        if occurence in numbers:
+            indexes.append(x)
+        x+=1
+    return indexes
 
 def straight_power(occurences_list):
     if occurences_list == [1,1,1,1,1,0]:
@@ -136,7 +114,9 @@ def straight_power(occurences_list):
 
 # Determine whole number power, append prefixed
 # to suffix value as a float to help
-# compare dealer hand to players 
+# compare dealer hand to players
+# 
+# refactor for legibility 
 
 def create_float(whole_number_value, suffix_list):
     stringed_value = "."
@@ -148,58 +128,11 @@ def create_float(whole_number_value, suffix_list):
     float_value = whole_number_value+unstringed_value
     return float_value
 
-def evaluate_5_of_a_kind(occurences_list):
-    if 5 in occurences_list:
-        return (True, 7)
-    else:
-        return False
-
-def evaluate_full_house(occurences_list):
-    if 3 in occurences_list and 2 in occurences_list:
-        return (True, 6)
-    else:
-        return False
-
-def evaluate_4_of_a_kind(occurences_list):
-    if 4 in occurences_list:
-        return (True, 5)
-    else:
-        return False
-
-def evaluate_straight(occurences_list):
-    is_a_straight = False 
-    if occurences_list == [1,1,1,1,1,0]:
-        is_a_straight = True
-    if occurences_list == [0,1,1,1,1,1]:
-        is_a_straight = True
-    if is_a_straight:
-        return (True, 4)
-    else:
-        return False
-
-def evaluate_3_of_a_kind(occurences_list):
-    if 3 in occurences_list:
-        return (True, 3)
-    else:
-        return False
-
-def evaluate_2_pair(occurences_list):
-    pair_count = 0
-    for occurence in occurences_list:
-        if occurence == 2:
-            pair_count += 1
-    if pair_count == 2:
-        return (True, 2)
-    else:
-        return False
-
-def evaluate_pair(occurences_list):
-    if 2 in occurences_list:
-        return (True, 1)
-    else:
-        return False
-
-def evaluation_function(occurences_list):
+'''
+Hand Strength
+-- Depricate and refacter asap
+'''
+def evaluation(occurences_list):
     # consider a case switch
     # refinement needed
     if evaluate_5_of_a_kind(occurences_list):
@@ -216,14 +149,14 @@ def evaluation_function(occurences_list):
         index_value(occurences_list, [4]))
 
     elif evaluate_straight(occurences_list):
-                                  # try to reduce line length to pound sign
+                                  
         return create_float(4, 
         straight_power(occurences_list))
 
     elif evaluate_3_of_a_kind(occurences_list):
         return create_float(3, 
         index_value(occurences_list, [3]))
-    # needs testing
+    # debugging needed
     elif evaluate_2_pair(occurences_list):
         return create_float(2, 
         index_value(occurences_list, [2,2]))
@@ -236,14 +169,69 @@ def evaluation_function(occurences_list):
         return 0.0
 
 '''
-End Hand Strength Evaluation Logic
+Hand Scoring
 '''
+def score_hand(hand_counted):
+    score = evaluation(hand_counted)
+    return score
+
+def score_hands(counted):
+    score = {"player":score_hand(counted['player']),
+    "dealer":score_hand(counted['dealer'])}
+    return score
 
 '''
-Start Gameloop
+Hand Score to Text
+'''
+def score_as_text(float):
+    hands = [
+        "Nothing",
+        "Pair",
+        "Two Pair",
+        "Three of a Kind",
+        "Straight", # add high straight / low straight
+        "Four of a Kind",
+        "Full House",
+        "Five of a Kind"
+    ]
+    string = str(float)
+    string = string.split(".")
+    whole_number = int(string[0])
+    payload = hands[whole_number] + " of " + string[1] + "s"
+    return payload
+'''
+Game
 '''
 
+hands = hands()
+counted = count_hands(hands)
+score = score_hands(counted)
 
-'''
-End Gameloop
-'''
+def hand(hands,counted,score):
+    both_hands = {
+    "player":
+        {
+            "hand": [],
+            "counted": [],
+            "score": 0.0,
+            "text": ""
+        },
+    "dealer":
+        {
+            "hand": [],
+            "counted": [],
+            "score": 0.0,
+            "text": ""
+        }
+    }
+    users = ["player", "dealer"]
+    for user in users:
+        both_hands[user]['hand'] = hands[user]
+        both_hands[user]['counted'] = counted[user]
+        both_hands[user]['score'] = score[user]
+        both_hands[user]['text'] = score_as_text(score[user])
+    return both_hands
+
+state = hand(hands, counted, score)
+
+print(state['player'])
