@@ -24,7 +24,7 @@ The end project will include a sample Tkinker client. Networking may be implemen
 4. py example.py
 
 
-
+### Overview
 
 So far 'hands()' produces a dictionary following this schema:
 { "player": [1,2,3,4,5],
